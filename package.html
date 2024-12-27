@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% set active_page = "package" %}
+{% block body %}
+<style>
+  /* General container for the package section */
+.package {
+    padding: 50px 0;
+    background-color: #f5f5f5;
+}
+
+.package h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.package-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.package-card:hover {
+    transform: translateY(-10px);
+}
+
+.package-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.package-info {
+    padding: 20px;
+}
+
+.package-info p {
+    margin: 10px 0;
+}
+
+.package-info form input[type="submit"] {
+    width: 100%;
+    background-color: #4A90E2; /* Updated to a shade of blue */
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.package-info form input[type="submit"]:hover {
+    background-color: #357ABD; /* Darker shade of blue for hover effect */
+}
+
+.package-info p strong {
+    color: #5B9BD5; /* Updated text color to a lighter shade of blue */
+}
+
+.package-info p strong {
+    font-size: 18px;
+}
+
+/* Highlighted Text */
+.package-info p strong[style="color:#60D429;"] {
+    color: #2E7D32; /* Changed to a darker green-blue for the 'In Demand' text */
+}
+
+@media (max-width: 767px) {
+    .package-card {
+        margin-bottom: 20px;
+    }
+}
+
+
+
+</style>
+
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+        <div class="container">
+            <div class="alert alert-info alert-dismissible fade in">
+                <center><a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}</center>
+            </div>
+        </div>
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+
+<!-- Packages Section -->
+<section id="package" class="package">    
+    <h1><strong><center>CHOOSE YOUR PACKAGE</center></strong></h1>  
+
+    <div class="container">
+        <div class="row">
+            <!-- Package Cards -->
+            {% set packages = [
+                {"name": "Delhi", "image": "delhi.jpg", "price": "20,000", "duration": "9Nights/10days", "status": "In Demand"},
+                {"name": "Mumbai", "image": "mumbai.jpg", "price": "23,000", "duration": "9Nights/10days", "status": "In Demand"},
+                {"name": "Bangalore", "image": "bangalore.jpg", "price": "17,500", "duration": "9Nights/10days", "status": "In Demand"},
+                {"name": "Agra", "image": "agra.jpg", "price": "13,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Amritsar", "image": "amritsar.jpg", "price": "8,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Chennai", "image": "chennai.jpg", "price": "10,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Hyderabad", "image": "hyderabad.jpg", "price": "9,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Gujrat", "image": "gujrat.jpg", "price": "7,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Mysore", "image": "mysore.jpg", "price": "5,100", "duration": "4Nights/5days", "status": "In Demand"},
+                {"name": "Dehradun", "image": "dehradun.jpg", "price": "5,000", "duration": "4Nights/5days", "status": "In Demand"},
+                {"name": "Goa", "image": "goa.jpg", "price": "5,400", "duration": "4Nights/5days", "status": "In Demand"},
+                {"name": "Jaipur", "image": "jaipur.jpg", "price": "10,500", "duration": "9Nights/10days", "status": "In Demand"},
+                {"name": "Kashmir", "image": "kashmir.jpg", "price": "11,000", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Kerala", "image": "kerala.jpg", "price": "7,300", "duration": "7Nights/8days", "status": "In Demand"},
+                {"name": "Bhopal", "image": "bhopal.jpg", "price": "5,750", "duration": "4Nights/5days", "status": "In Demand"},
+                {"name": "Kullu Manali", "image": "manali.jpg", "price": "8,200", "duration": "9Nights/10days", "status": "In Demand"},
+                {"name": "Ooty", "image": "ooty.jpg", "price": "4,800", "duration": "3Nights/4days", "status": "In Demand"},
+                {"name": "Orrissa", "image": "orrisa.jpg", "price": "5,900", "duration": "5Nights/6days", "status": "In Demand"},
+                {"name": "Sikkim", "image": "sikkim.jpg", "price": "6,800", "duration": "4Nights/5days", "status": "In Demand"},
+                {"name": "Shimla", "image": "shimla.jpg", "price": "9,000", "duration": "7Nights/8days", "status": "In Demand"}
+            ] %}
+
+            {% for package in packages %}
+            <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="package-card">
+                    <img src="{{ url_for('static', filename='images/' ~ package.image) }}" alt="{{ package.name }}" class="package-image">
+                    <div class="package-info">
+                        <form method="post" action="/package">
+                            <center><input type="submit" name="submit_button" value="{{ package.name }}"></center>
+                        </form>
+                        <p><center><strong>Price Starting at: &#x20B9;{{ package.price }}/person</strong></center></p>
+                        <p><center><strong style="color:#08D3D5">{{ package.duration }}</strong></center></p>
+                        <p><center><strong style="color:#60D429;">{{ package.status }}</strong></center></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% set active_page = "PayFeed" %}
+{% block body %}
+<style>
+#PayFeed {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+#PayFeed .container {
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+.page-header h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.page-header h3 {
+    font-size: 20px;
+    color: #555;
+    margin-top: 15px;
+}
+
+.panel-default {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.panel-heading {
+    background-color: #4CAF50;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.panel-heading h3 {
+    margin: 0;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+.card-row span {
+    font-size: 24px;
+}
+
+.panel-body {
+    padding: 25px;
+    background-color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.btn-success {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-success:hover {
+    background-color: #45a049;
+}
+
+.text-center a {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.text-center a:hover {
+    color: #007bff;
+}
+
+/* Flexbox for centering the card */
+.row.justify-content-center.align-items-center {
+    height: 80vh; /* Adjust the height to make it look centered */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+
+<section id="PayFeed" class="PayFeed">
+    <div class="container">
+        <div class="page-header text-center">
+            <h1><strong>Payment Confirmation Gateway</strong></h1>
+            <h3>Check your Travel Details Here 
+                <button onclick="document.location='{{ url_for('travellerInfo') }}'" class="btn btn-success navbar-btn">My Details</button>
+            </h3>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="container">
+                        <div class="alert alert-info alert-dismissible fade in">
+                            <center><a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ message }}</center>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row justify-content-center align-items-center" style="height: 80vh;">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-center">
+                        <h3>Payment Details</h3>
+                        <div class="card-row">
+                            <span class="dc_payment_icons_glossy_75 dc_visa_glossy" title="Visa"></span>
+                            <span class="dc_payment_icons_glossy_75 dc_mastercard_glossy" title="Mastercard"></span>
+                            <span class="dc_payment_icons_glossy_75 dc_discover_glossy" title="Discover"></span>
+                            <span class="dc_payment_icons_glossy_75 dc_maestro_glossy" title="Maestro"></span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/PayFeed" onsubmit="return validatecardnumber(event)">
+                            <div class="form-group">
+                                <label for="cardNum">Package Amount</label>
+                                <input type="text" id="cardNum" name="amt1" class="form-control" placeholder="Package Amount" value="{{amt1}}" readonly />
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="amt2">Accommodation Amount</label>
+                                        <input type="text" id="amt2" name="amt2" class="form-control" placeholder="Hotel Amount" value="{{amt2}}" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="amt3">Transport Amount</label>
+                                        <input type="text" id="amt3" name="amt3" class="form-control" placeholder="Transport Amount" value="{{amt3}}" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="totl">Total Amount</label>
+                                <input type="text" id="totl" name="totl" class="form-control" placeholder="Total Amount" value="{{totl}}" readonly />
+                            </div>
+
+                            <!-- Card Number, Expiry Date, and CVV -->
+                            <div class="form-group">
+                                <label for="cardNum">Card Number</label>
+                                <input type="text" id="cardNum" name="cardNum" class="form-control" placeholder="Enter your card number" required />
+                                <small id="cardNumError" style="color: red;"></small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="expiry">Expiry Date</label>
+                                        <input type="text" id="expiry" name="expiry" class="form-control" placeholder="MM/YY" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cvv">CVV</label>
+                                        <input type="text" id="cvv" name="cvv" class="form-control" placeholder="CVV" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-footer">
+                                <button class="btn btn-success btn-lg btn-block">Confirm Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<script>
+function validatecardnumber(event) {
+    var ccNum = document.getElementById("cardNum").value.trim().replace(/\s+/g, '');  // Remove spaces
+    var visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;  // Visa (13 or 16 digits)
+    var mastercardRegEx = /^(?:5[1-5][0-9]{14})$/;  // Mastercard (16 digits)
+    var maestroRegEx = /^(5018|5020|5038|5893|6304|6759|6761|6762|6763)[0-9]{8,15}$/;  // Maestro (12-19 digits)
+    var discovRegEx = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;  // Discover (16 digits)
+
+    var errorMessage = document.getElementById("cardNumError");
+
+    // Check if the card number matches any of the valid patterns
+    if (
+        visaRegEx.test(ccNum) ||
+        mastercardRegEx.test(ccNum) ||
+        maestroRegEx.test(ccNum) ||
+        discovRegEx.test(ccNum)
+    ) {
+        errorMessage.textContent = "";  // Clear error message
+        return true;  // Valid card number
+    } else {
+        errorMessage.textContent = "Invalid card number. Please enter a valid Visa, Mastercard, Maestro, or Discover card.";
+        event.preventDefault();  // Block form submission
+        return false;
+    }
+}
+</script>
+{% endblock %}

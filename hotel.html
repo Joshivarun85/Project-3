@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% set active_page = "hotel" %}
+{% block body %}
+<style>
+  /* General styling for the hotel section */
+.hotel {
+  padding: 15px 0; /* Reduced padding */
+  background-color: #f5f5f5;
+}
+
+/* Card Container Styling */
+.hotel .card {
+  border: none;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 80%; /* Reduced width of the card */
+  margin: 0 auto; /* Center the card */
+}
+
+.hotel h1 {
+  font-size: 18px; /* Smaller font size for heading */
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Form Group Styling */
+.hotel .form-group {
+  margin-bottom: 8px; /* Reduced margin */
+}
+
+.hotel .form-control {
+  width: 100%;
+  height: 30px; /* Smaller height for input fields */
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 12px; /* Font size for input fields */
+}
+
+.hotel .form-control:focus {
+  border-color: #4A90E2;  /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);  /* Blue shadow when focused */
+}
+
+.hotel .custom-control-label {
+  font-size: 12px; /* Font size for radio buttons */
+  padding-left: 5px; /* Reduced padding to fit the smaller font */
+}
+
+.hotel .custom-control-input {
+  width: 15px; /* Adjusted size of the radio button */
+  height: 15px; /* Adjusted size of the radio button */
+}
+
+.hotel .custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #4A90E2;  /* Blue border for selected radio button */
+  background-color: #4A90E2;  /* Blue background for selected radio button */
+}
+
+/* Heading for hotel type */
+.hotel-type-heading {
+  font-size: 14px; /* Smaller font size */
+  color: #333;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* Submit Button */
+.hotel form button {
+  background-color: #4A90E2; /* Blue button */
+  border: none;
+  color: white;
+  padding: 8px 16px; /* Smaller button padding */
+  font-size: 12px; /* Font size for the button */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* Make the button full width */
+}
+
+.hotel form button:hover {
+  background-color: #357ABD; /* Darker shade of blue on hover */
+}
+
+.hotel .alert {
+  margin-top: 15px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 767px) {
+  .hotel .card {
+    width: 95%; /* Card width adjusted for smaller screens */
+  }
+
+  .hotel .form-control,
+  .hotel .custom-control-label {
+    font-size: 12px; /* Font size adjusted */
+  }
+
+  .hotel form button {
+    font-size: 12px; /* Adjusted button font size for mobile */
+    padding: 8px; /* Adjusted padding for mobile */
+  }
+}
+
+
+
+</style>
+
+<section id="hotel" class="hotel">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="container">
+          <div class="alert alert-info alert-dismissible fade in">
+            <center><a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              {{ message }}
+            </center>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  
+  <div class="container">
+    <!-- Card Container for the Form -->
+    <div class="card shadow-lg p-4 mb-5 rounded" style="max-width: 600px; margin: auto; background-color: #ffffff;">
+      <h2 class="text-center mb-4"><strong>Choose the Best Accommodation for You</strong></h2>
+      
+      <form autocomplete="off" action="/hotel" method="post" class="hotel-form">
+        
+        <!-- Check-in Date -->
+        <div class="form-group">
+          <label for="startdate">Check-in Date:</label>
+          <input type="date" id="startdate" name="startdate" class="form-control" placeholder="Enter Check-in date">
+        </div>
+
+        <!-- Budget Range -->
+        <div class="form-group">
+          <label for="cost">Choose Your Starting Budget Range:</label><br>
+          <select name="cost" id="cost" class="form-control">
+            <option value="2000">2000</option>
+            <option value="3000">3000</option>
+            <option value="4000">4000</option>
+            <option value="5000">5000</option>
+            <option value="6000">6000</option>
+            <option value="7000">7000</option>
+            <option value="8000">8000</option>
+            <option value="Above 8000">Above 8000</option>
+          </select>
+        </div>
+
+        <!-- Hotel Type -->
+        <h5 class="hotel-type-heading"><strong>Hotel Type</strong></h5>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio1" name="hotel_type" value="2 Star">
+          <label class="custom-control-label" for="customRadio1">2 Star</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio2" name="hotel_type" value="3 Star">
+          <label class="custom-control-label" for="customRadio2">3 Star</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio3" name="hotel_type" value="4 Star">
+          <label class="custom-control-label" for="customRadio3">4 Star</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio4" name="hotel_type" value="5 Star">
+          <label class="custom-control-label" for="customRadio4">5 Star</label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-primary btn-lg mt-4">Find Hotels</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

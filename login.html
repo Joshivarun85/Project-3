@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Travel and Tourism</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            text-align: center;
+            color: #B51B7B;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .form1 p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .form1 input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form1 .button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form1 .btn-primary {
+            background-color: #007acc;
+            color: white;
+            padding: 12px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .form1 .btn-primary:hover {
+            background-color: #005bb5;
+        }
+
+        .form1 p a {
+            color: #31B404;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form1 p a:hover {
+            color: #B51B7B;
+        }
+
+        /* Back Button */
+        .back-btn {
+            width: auto;
+            margin-bottom: 20px;
+            background-color: #007acc;
+            color: white;
+            font-size: 14px;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .back-btn:hover {
+            background-color: #005bb5;
+        }
+
+        /* Flash Message */
+        .alert-info {
+            background-color: #B51B7B;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+
+    {% endblock %}
+</head>
+
+<body>
+
+    {% block body %}
+    <div class="container">
+
+        <button onclick="document.location='{{ url_for('home') }}'" class="back-btn">Back</button>
+
+        <h1>Log In</h1>
+
+        <p style="text-align: center; font-size: 16px; color:#000; font-weight: normal;">Don't Have an Account? <a
+                href="{{ url_for('signup') }}">Sign Up Here!</a></p>
+
+        <div class="form1">
+            <form action="/login" method="post">
+
+                {{ form.hidden_tag() }}
+
+                <p>
+                    {{ form.email.label }} :<br>
+                    {{ form.email(size=32, placeholder="Your Email") }}<br>
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+
+                <p>
+                    {{ form.password.label }} :<br>
+                    {{ form.password(size=32, placeholder="Your Password") }}<br>
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+
+                <p>{{ form.remember() }} {{ form.remember.label }}</p>
+
+                <center>
+                    <p class="button">{{ form.submit() }}</p>
+                </center>
+
+            </form>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+

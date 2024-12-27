@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% set active_page = "about" %}
+{% block body %}
+<style>
+  /* About Us Section */
+#about {
+  background-color: #f0f8ff; /* Light blue background */
+  padding: 60px 0; /* Padding for top and bottom */
+}
+
+.about-title {
+  font-size: 40px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #003366; /* Dark blue color */
+  letter-spacing: 2px;
+}
+
+.about-text {
+  font-size: 1.2rem; /* Slightly larger text */
+  line-height: 1.8;  /* Increased line height for better readability */
+  color: #000; /* Black color for the text */
+  max-width: 100%; /* Take full width of the container */
+  padding: 20px;
+}
+
+.about-image {
+  max-width: 100%; /* Make image responsive */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for the image */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.about-image:hover {
+  transform: scale(1.05); /* Zoom in effect on hover */
+}
+
+/* Grid for Image Section (2x2) */
+.image-grid .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-grid .col-md-6 {
+  padding: 0 10px; /* Adding padding between images */
+}
+
+.content {
+  margin-top: 40px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.col-lg-6 {
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .about-title {
+    font-size: 30px; /* Smaller title size on mobile */
+  }
+
+  .about-text {
+    font-size: 1rem; /* Smaller text on mobile */
+    padding: 10px;
+  }
+
+  .about-image {
+    max-width: 80%; /* Slightly smaller image on mobile */
+  }
+
+  .row {
+    flex-direction: column; /* Stack text and image vertically on smaller screens */
+    text-align: center;
+  }
+
+  .col-lg-6 {
+    padding: 10px 0;
+  }
+}
+
+</style>
+<section id="about" class="about py-5" style="background-color: #f0f8ff;">
+  <div class="container">
+    <!-- Section Title -->
+    <div class="section-title text-center" data-aos="fade-up">
+      <h1 class="text-primary about-title">About Us</h1>
+    </div>
+
+    <!-- About Us Section (Text on left and Image grid) -->
+    <div class="row content mt-4">
+      <!-- Left Column: Text -->
+      <div class="col-lg-6 text-left" data-aos="fade-up">
+        <p class="about-text">
+          We at <strong>Wanderstruck</strong> are dedicated to creating unforgettable travel experiences for our clients. We believe that every journey should be seamless, inspiring, and tailored to your unique needs. From planning and booking to organizing the perfect trip, our team ensures that every detail is taken care of with precision and care. Whether you’re looking for a peaceful retreat, an adventurous expedition, or a cultural exploration, we are here to make your dream destinations a reality. With our passion for travel and commitment to exceptional service, Wanderstruck guarantees that your travels will be filled with memories that last a lifetime.
+        </p>
+      </div>
+
+      <!-- Right Column: Image Grid (2x2) -->
+      <div class="col-lg-6">
+        <div class="image-grid">
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <img src="/static/images/ex.jfif" alt="Image 1" class="about-image">
+            </div>
+            <div class="col-md-6 mb-4">
+              <img src="/static/images/exp.jfif" alt="Image 2" class="about-image">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <img src="/static/images/exper.jfif" alt="Image 3" class="about-image">
+            </div>
+            <div class="col-md-6 mb-4">
+              <img src="/static/images/experience.jfif" alt="Image 4" class="about-image">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
